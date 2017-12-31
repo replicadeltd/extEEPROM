@@ -206,3 +206,7 @@ int extEEPROM::read(unsigned long addr)
     ret = read(addr, &data, 1);
     return ret == 0 ? data : -ret;
 }
+
+unsigned long extEEPROM::getTotalCapacity() {
+    return _totalCapacity;
+}
