@@ -87,6 +87,8 @@ class extEEPROM
         byte read(unsigned long addr, byte *values, unsigned int nBytes);
         int read(unsigned long addr);
 
+        unsigned long getTotalCapacity();
+
     private:
         uint8_t _eepromAddr;            //eeprom i2c address
         uint16_t _dvcCapacity;          //capacity of one EEPROM device, in kbits
