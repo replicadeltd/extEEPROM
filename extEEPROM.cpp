@@ -95,7 +95,9 @@ extEEPROM::extEEPROM(eeprom_size_t deviceCapacity, byte nDevice, unsigned int pa
 byte extEEPROM::begin(twiClockFreq_t twiFreq)
 {
     Wire.begin();
+#ifdef ARDUINO_ARCH_AVR
     TWBR = ( (F_CPU / twiFreq) - 16) / 2;
+#endif
     Wire.beginTransmission(_eepromAddr);
     if (_nAddrBytes == 2) Wire.write(0);      //high addr byte
     Wire.write(0);                            //low addr byte
@@ -174,7 +176,7 @@ byte extEEPROM::read(unsigned long addr, byte *values, unsigned int nBytes)
         rxStatus = Wire.endTransmission();
         if (rxStatus != 0) return rxStatus;        //read error
 
-        Wire.requestFrom(ctrlByte, nRead);
+        Wire.requestFrom((uint8_t)ctrlByte, (uint8_t)nRead);
         for (byte i=0; i<nRead; i++) values[i] = Wire.read();
 
         addr += nRead;          //increment the EEPROM address
